@@ -31,6 +31,8 @@ For Japanese README is here.
 
 After the tuning, let's start logic apps manually. If the configuration is succeeded, two Tags ``DefenderForServers`` and ``<Azure Subscription Name>`` will be set to each devices.
 
+<img width="800" alt="image" src="https://github.com/hisashin0728/DefenderForServersMappingToMDETag/assets/55295601/82c0f813-e5e6-4112-9308-a6968958c527">
+
 ![image](https://github.com/hisashin0728/DefenderForServersMappingToMDETag/assets/55295601/82c0f813-e5e6-4112-9308-a6968958c527)
 
 # Notes
@@ -45,8 +47,7 @@ After the tuning, let's start logic apps manually. If the configuration is succe
 
 - This logics apps pickup subscription id from Resource ID information from Defender XDR
 <img width="800" alt="image" src="https://github.com/hisashin0728/DefenderForServersMappingToMDETag/assets/55295601/b84f570a-f0cb-405b-86db-3f9210b03ef3">
- Some devices are NOT embbeded ``subscriptionId`` in Defender XDR, so this templates pickup ``resourceId``
 
+ Some devices are NOT embbeded ``subscriptionId`` in Defender XDR, so this templates pickup ``resourceId``
 <img width="800" alt="image" src="https://github.com/hisashin0728/DefenderForServersMappingToMDETag/assets/55295601/5ed72e1b-7268-46d5-9bec-0b30ad98283d">
 
-![image](https://github.com/hisashin0728/DefenderForServersMappingToMDETag/assets/55295601/5ed72e1b-7268-46d5-9bec-0b30ad98283d)
