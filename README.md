@@ -45,4 +45,5 @@ After the tuning, let's start logic apps manually. If the configuration is succe
 - This logics apps pickup subscription id from Resource ID information from Defender XDR
 <img width="572" alt="image" src="https://github.com/hisashin0728/DefenderForServersMappingToMDETag/assets/55295601/b84f570a-f0cb-405b-86db-3f9210b03ef3">
  Some devices are NOT embbeded ``subscriptionId`` in Defender XDR, so this templates pickup ``resourceId``
+
 ![image](https://github.com/hisashin0728/DefenderForServersMappingToMDETag/assets/55295601/5ed72e1b-7268-46d5-9bec-0b30ad98283d)
