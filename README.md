@@ -41,6 +41,7 @@ After the tuning, let's start logic apps manually. If the configuration is succe
   - **NOT** machineTags equal ``DefenderForServers`` <-- Initially, Tag will be embedded, but secondary process ignored 
   - **NOT** osPlatform eq ``Windows10`` or osPlatform eq ``Windows11`` 
 
+<img alt="hogehoge" src="https://github.com/hisashin0728/DefenderForServersMappingToMDETag/assets/55295601/3433ea73-29a5-4f0c-bcb9-b7546d393c70" width="800">
 ![image](https://github.com/hisashin0728/DefenderForServersMappingToMDETag/assets/55295601/3433ea73-29a5-4f0c-bcb9-b7546d393c70)
 
 - This logics apps pickup subscription id from Resource ID information from Defender XDR
