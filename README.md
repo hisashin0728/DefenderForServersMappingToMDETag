@@ -19,8 +19,8 @@ For Japanese README is here.
 
 - You can tune "Reccurence" duration for the first steps. Initial parameter sets to 1 month for reccurence, so you can tune this parameter.
 - You should configure Subscription ``Reader`` role for system assigned identity
- - This logic app polls query to post Azure Resource Graph by system assigned managed identity
- - If you have multiple subscriptions and deploys Defender for Servers to each subscriptions, the logic app requires each subscription ``reader`` role for managed identity.
+  - This logic app polls query to post Azure Resource Graph by system assigned managed identity
+  - If you have multiple subscriptions and deploys Defender for Servers to each subscriptions, the logic app requires each subscription ``reader`` role for managed identity.
 
 ![image](https://github.com/hisashin0728/DefenderForServersMappingToMDETag/assets/55295601/cf976a86-33be-45cf-b647-62b05d907ccb)
 ![image](https://github.com/hisashin0728/DefenderForServersMappingToMDETag/assets/55295601/aa29bd6a-2683-4217-8786-6c694c15de7e)
@@ -35,10 +35,10 @@ After the tuning, let's start logic apps manually. If the configuration is succe
 # Notes
 
 - This logic apps first query to all device resources that is filtered in Defender XDR
- - onboardingStatus is ``Onboarded``
- - healthStatus is ``Active``
- - **NOT** machineTags equal ``DefenderForServers`` <-- Initially, Tag will be embedded, but secondary process ignored 
- - **NOT** osPlatform eq ``Windows10`` or osPlatform eq ``Windows11`` 
+  - onboardingStatus is ``Onboarded``
+  - healthStatus is ``Active``
+  - **NOT** machineTags equal ``DefenderForServers`` <-- Initially, Tag will be embedded, but secondary process ignored 
+  - **NOT** osPlatform eq ``Windows10`` or osPlatform eq ``Windows11`` 
 
 ![image](https://github.com/hisashin0728/DefenderForServersMappingToMDETag/assets/55295601/3433ea73-29a5-4f0c-bcb9-b7546d393c70)
 
