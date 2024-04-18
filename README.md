@@ -42,10 +42,11 @@ After the tuning, let's start logic apps manually. If the configuration is succe
   - **NOT** osPlatform eq ``Windows10`` or osPlatform eq ``Windows11`` 
 
 <img alt="hogehoge" src="https://github.com/hisashin0728/DefenderForServersMappingToMDETag/assets/55295601/3433ea73-29a5-4f0c-bcb9-b7546d393c70" width="800"><BR>
-![image](https://github.com/hisashin0728/DefenderForServersMappingToMDETag/assets/55295601/3433ea73-29a5-4f0c-bcb9-b7546d393c70)
 
 - This logics apps pickup subscription id from Resource ID information from Defender XDR
 <img width="800" alt="image" src="https://github.com/hisashin0728/DefenderForServersMappingToMDETag/assets/55295601/b84f570a-f0cb-405b-86db-3f9210b03ef3">
  Some devices are NOT embbeded ``subscriptionId`` in Defender XDR, so this templates pickup ``resourceId``
+
+<img width="800" alt="image" src="https://github.com/hisashin0728/DefenderForServersMappingToMDETag/assets/55295601/5ed72e1b-7268-46d5-9bec-0b30ad98283d">
 
 ![image](https://github.com/hisashin0728/DefenderForServersMappingToMDETag/assets/55295601/5ed72e1b-7268-46d5-9bec-0b30ad98283d)
