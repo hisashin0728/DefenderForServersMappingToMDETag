@@ -33,8 +33,6 @@ After the tuning, let's start logic apps manually. If the configuration is succe
 
 <img width="800" alt="image" src="https://github.com/hisashin0728/DefenderForServersMappingToMDETag/assets/55295601/82c0f813-e5e6-4112-9308-a6968958c527">
 
-![image](https://github.com/hisashin0728/DefenderForServersMappingToMDETag/assets/55295601/82c0f813-e5e6-4112-9308-a6968958c527)
-
 # Notes
 
 - This logic apps first query to all device resources that is filtered in Defender XDR
