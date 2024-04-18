@@ -1,0 +1,365 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "metadata": {
+        "title": "Defender for Servers Subscription Name Mapping to MDE Tag",
+        "description": "Defender for Servers Subscription Name Mapping to MDE Tag",
+        "author": {
+            "name": "Hisashi Nakada"
+        }
+    },
+    "parameters": {
+        "PlaybookName": {
+            "defaultValue": "DefenderForServersMappingToMDETag",
+            "type": "string"
+        }
+    },
+    "variables": {
+        "MicrosoftSentinelConnectionName":  "[concat('MicrosoftSentinel-', parameters('PlaybookName'))]",
+        "DefenderATPConnectionName": "[concat('defenderatp-', parameters('PlaybookName'))]"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Logic/workflows",
+            "apiVersion": "2017-07-01",
+            "name": "[parameters('PlaybookName')]",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "LogicAppsCategory": "security",
+                "hidden-SentinelTemplateName": "DefenderForServersMappingToMDETag",
+                "hidden-SentinelTemplateVersion": "1.0"
+            },
+            "identity": {
+                "type": "SystemAssigned"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/connections', variables('MicrosoftSentinelConnectionName'))]",
+                "[resourceId('Microsoft.Web/connections', variables('DefenderATPConnectionName'))]"
+            ],
+            "properties": {
+                "state": "Enabled",
+                "definition": {
+                    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {
+                        "$connections": {
+                            "defaultValue": {},
+                            "type": "Object"
+                        }
+                    },
+                    "triggers": {
+                        "Recurrence": {
+                            "recurrence": {
+                                "frequency": "Month",
+                                "interval": 1
+                            },
+                            "evaluatedRecurrence": {
+                                "frequency": "Month",
+                                "interval": 1
+                            },
+                            "type": "Recurrence"
+                        }
+                    },
+                    "actions": {
+                        "ForEach-Machine": {
+                            "foreach": "@body('GetMDATPMachines')?['value']",
+                            "actions": {
+                                "If-CheckVmMetadata": {
+                                    "actions": {
+                                        "AddTag-DefenderForServers": {
+                                            "runAfter": {
+                                                "AddTag-SubscriptionId": [
+                                                    "Succeeded"
+                                                ]
+                                            },
+                                            "type": "ApiConnection",
+                                            "inputs": {
+                                                "body": {
+                                                    "Action": "Add",
+                                                    "Value": "DefenderForServers"
+                                                },
+                                                "host": {
+                                                    "connection": {
+                                                        "name": "@parameters('$connections')['wdatp']['connectionId']"
+                                                    }
+                                                },
+                                                "method": "post",
+                                                "path": "/api/machines/@{encodeURIComponent(body('JsonParseMDATP')?['id'])}/tags"
+                                            }
+                                        },
+                                        "AddTag-SubscriptionId": {
+                                            "runAfter": {
+                                                "JsonParseARG": [
+                                                    "Succeeded"
+                                                ]
+                                            },
+                                            "type": "ApiConnection",
+                                            "inputs": {
+                                                "body": {
+                                                    "Action": "Add",
+                                                    "Value": "@body('JsonParseARG')?['data']?[0]?['name']"
+                                                },
+                                                "host": {
+                                                    "connection": {
+                                                        "name": "@parameters('$connections')['wdatp']['connectionId']"
+                                                    }
+                                                },
+                                                "method": "post",
+                                                "path": "/api/machines/@{encodeURIComponent(body('JsonParseMDATP')?['id'])}/tags"
+                                            }
+                                        },
+                                        "JsonParseARG": {
+                                            "runAfter": {
+                                                "RestapiARG": [
+                                                    "Succeeded"
+                                                ]
+                                            },
+                                            "type": "ParseJson",
+                                            "inputs": {
+                                                "content": "@body('RestapiARG')",
+                                                "schema": {
+                                                    "properties": {
+                                                        "count": {
+                                                            "type": "integer"
+                                                        },
+                                                        "data": {
+                                                            "items": {
+                                                                "properties": {
+                                                                    "name": {
+                                                                        "type": "string"
+                                                                    }
+                                                                },
+                                                                "required": [
+                                                                    "name"
+                                                                ],
+                                                                "type": "object"
+                                                            },
+                                                            "type": "array"
+                                                        },
+                                                        "facets": {
+                                                            "type": "array"
+                                                        },
+                                                        "resultTruncated": {
+                                                            "type": "string"
+                                                        },
+                                                        "totalRecords": {
+                                                            "type": "integer"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            }
+                                        },
+                                        "JsonParseMDATP": {
+                                            "runAfter": {},
+                                            "type": "ParseJson",
+                                            "inputs": {
+                                                "content": "@items('ForEach-Machine')",
+                                                "schema": {
+                                                    "properties": {
+                                                        "aadDeviceId": {},
+                                                        "agentVersion": {
+                                                            "type": "string"
+                                                        },
+                                                        "computerDnsName": {
+                                                            "type": "string"
+                                                        },
+                                                        "defenderAvStatus": {
+                                                            "type": "string"
+                                                        },
+                                                        "deviceValue": {
+                                                            "type": "string"
+                                                        },
+                                                        "exclusionReason": {},
+                                                        "exposureLevel": {
+                                                            "type": "string"
+                                                        },
+                                                        "firstSeen": {
+                                                            "type": "string"
+                                                        },
+                                                        "healthStatus": {
+                                                            "type": "string"
+                                                        },
+                                                        "id": {
+                                                            "type": "string"
+                                                        },
+                                                        "ipAddresses": {},
+                                                        "isAadJoined": {
+                                                            "type": "boolean"
+                                                        },
+                                                        "isExcluded": {
+                                                            "type": "boolean"
+                                                        },
+                                                        "isPotentialDuplication": {
+                                                            "type": "boolean"
+                                                        },
+                                                        "lastExternalIpAddress": {
+                                                            "type": "string"
+                                                        },
+                                                        "lastIpAddress": {
+                                                            "type": "string"
+                                                        },
+                                                        "lastSeen": {
+                                                            "type": "string"
+                                                        },
+                                                        "machineTags": {
+                                                            "items": {
+                                                                "type": "string"
+                                                            },
+                                                            "type": "array"
+                                                        },
+                                                        "managedBy": {
+                                                            "type": "string"
+                                                        },
+                                                        "managedByStatus": {
+                                                            "type": "string"
+                                                        },
+                                                        "mergedIntoMachineId": {},
+                                                        "onboardingStatus": {
+                                                            "type": "string"
+                                                        },
+                                                        "osArchitecture": {},
+                                                        "osBuild": {},
+                                                        "osPlatform": {},
+                                                        "osProcessor": {},
+                                                        "osVersion": {},
+                                                        "rbacGroupId": {},
+                                                        "rbacGroupName": {},
+                                                        "riskScore": {
+                                                            "type": "string"
+                                                        },
+                                                        "version": {
+                                                            "type": "string"
+                                                        },
+                                                        "vmMetadata": {
+                                                            "properties": {
+                                                                "cloudProvider": {
+                                                                    "type": "string"
+                                                                },
+                                                                "resourceId": {
+                                                                    "type": "string"
+                                                                },
+                                                                "subscriptionId": {},
+                                                                "vmId": {
+                                                                    "type": "string"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            }
+                                        },
+                                        "RestapiARG": {
+                                            "runAfter": {
+                                                "JsonParseMDATP": [
+                                                    "Succeeded"
+                                                ]
+                                            },
+                                            "type": "Http",
+                                            "inputs": {
+                                                "authentication": {
+                                                    "type": "ManagedServiceIdentity"
+                                                },
+                                                "body": {
+                                                    "query": "ResourceContainers | where subscriptionId=='@{split(items('ForEach-Machine')?['vmMetadata']?['resourceId'],'/')[2]}' | where type=='microsoft.resources/subscriptions' | project name"
+                                                },
+                                                "headers": {
+                                                    "Content-type": "application/json"
+                                                },
+                                                "method": "POST",
+                                                "uri": "https://management.azure.com/providers/Microsoft.ResourceGraph/resources?api-version=2022-10-01"
+                                            }
+                                        }
+                                    },
+                                    "runAfter": {},
+                                    "expression": {
+                                        "and": [
+                                            {
+                                                "greaterOrEquals": [
+                                                    "@length(string(items('ForEach-Machine')?['vmMetadata']?['resourceId']))",
+                                                    1
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    "type": "If"
+                                }
+                            },
+                            "runAfter": {
+                                "GetMDATPMachines": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "Foreach"
+                        },
+                        "GetMDATPMachines": {
+                            "runAfter": {},
+                            "type": "ApiConnection",
+                            "inputs": {
+                                "host": {
+                                    "connection": {
+                                        "name": "@parameters('$connections')['wdatp']['connectionId']"
+                                    }
+                                },
+                                "method": "get",
+                                "path": "/api/machines",
+                                "queries": {
+                                    "$filter": "onboardingStatus eq 'Onboarded' and healthStatus eq 'Active' and not machineTags/any(tag: tag eq 'DefenderForServers') and not (osPlatform eq 'Windows10' or osPlatform eq 'Windows11')"
+                                }
+                            }
+                        }
+                    },
+                    "outputs": {}
+                },
+                "parameters": {
+                    "$connections": {
+                        "value": {
+                            "azuresentinel": {
+                                "connectionId": "[resourceId('Microsoft.Web/connections', variables('MicrosoftSentinelConnectionName'))]",
+                                "connectionName": "azuresentinel",
+                                "id": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/azuresentinel')]",
+                                "connectionProperties": {
+                                    "authentication": {
+                                        "type": "ManagedServiceIdentity"
+                                    }
+                                }
+                            },
+                            "wdatp": {
+                                "connectionId": "[resourceId('Microsoft.Web/connections', variables('DefenderATPConnectionName'))]",
+                                "connectionName": "wdatp",
+                                "id": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/wdatp')]"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "apiVersion": "2018-07-01-preview",
+            "name": "[variables('MicrosoftSentinelConnectionName')]",
+            "type": "Microsoft.Web/connections",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "parameterValueType": "Alternative",
+                "api": {
+                    "displayName": "[variables('MicrosoftSentinelConnectionName')]",
+                    "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', resourceGroup().location,'/managedApis/azuresentinel')]"
+                }
+            }
+        },
+        {
+            "apiVersion": "2018-07-01-preview",
+            "name": "[variables('DefenderATPConnectionName')]",
+            "type": "Microsoft.Web/connections",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "api": {
+                    "displayName": "[variables('DefenderATPConnectionName')]",
+                    "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', resourceGroup().location,'/managedApis/wdatp')]"
+                }
+            }
+        }
+    ]
+}
