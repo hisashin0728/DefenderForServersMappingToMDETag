@@ -17,7 +17,8 @@ For Japanese README is here.
 # Configure the logic apps
 > After deploy to Azure, you need to configure the following steps
 
-- You can tune "Reccurence" duration for the first steps. Initial parameter sets to 1 month for reccurence, so you can tune this parameter.
+- You can tune "Reccurence" duration for the first steps.
+  - Initial parameter sets to ``1`` month for reccurence, so you can tune this parameter.
 - You should configure Subscription ``Reader`` role for system assigned identity
   - This logic app polls query to post Azure Resource Graph by system assigned managed identity
   - If you have multiple subscriptions and deploys Defender for Servers to each subscriptions, the logic app requires each subscription ``reader`` role for managed identity.
