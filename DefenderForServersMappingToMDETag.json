@@ -157,78 +157,7 @@
                                                 "content": "@items('ForEach-Machine')",
                                                 "schema": {
                                                     "properties": {
-                                                        "aadDeviceId": {},
-                                                        "agentVersion": {
-                                                            "type": "string"
-                                                        },
-                                                        "computerDnsName": {
-                                                            "type": "string"
-                                                        },
-                                                        "defenderAvStatus": {
-                                                            "type": "string"
-                                                        },
-                                                        "deviceValue": {
-                                                            "type": "string"
-                                                        },
-                                                        "exclusionReason": {},
-                                                        "exposureLevel": {
-                                                            "type": "string"
-                                                        },
-                                                        "firstSeen": {
-                                                            "type": "string"
-                                                        },
-                                                        "healthStatus": {
-                                                            "type": "string"
-                                                        },
                                                         "id": {
-                                                            "type": "string"
-                                                        },
-                                                        "ipAddresses": {},
-                                                        "isAadJoined": {
-                                                            "type": "boolean"
-                                                        },
-                                                        "isExcluded": {
-                                                            "type": "boolean"
-                                                        },
-                                                        "isPotentialDuplication": {
-                                                            "type": "boolean"
-                                                        },
-                                                        "lastExternalIpAddress": {
-                                                            "type": "string"
-                                                        },
-                                                        "lastIpAddress": {
-                                                            "type": "string"
-                                                        },
-                                                        "lastSeen": {
-                                                            "type": "string"
-                                                        },
-                                                        "machineTags": {
-                                                            "items": {
-                                                                "type": "string"
-                                                            },
-                                                            "type": "array"
-                                                        },
-                                                        "managedBy": {
-                                                            "type": "string"
-                                                        },
-                                                        "managedByStatus": {
-                                                            "type": "string"
-                                                        },
-                                                        "mergedIntoMachineId": {},
-                                                        "onboardingStatus": {
-                                                            "type": "string"
-                                                        },
-                                                        "osArchitecture": {},
-                                                        "osBuild": {},
-                                                        "osPlatform": {},
-                                                        "osProcessor": {},
-                                                        "osVersion": {},
-                                                        "rbacGroupId": {},
-                                                        "rbacGroupName": {},
-                                                        "riskScore": {
-                                                            "type": "string"
-                                                        },
-                                                        "version": {
                                                             "type": "string"
                                                         },
                                                         "vmMetadata": {
