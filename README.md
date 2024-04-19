@@ -5,7 +5,7 @@ This repository ``DefenderForServersMappingToMDETag`` provides a ARM template fo
 
 This template provides to write tag as Azure subscription name in Defender XDR for Azure VM installed Defender for Servers (MDE).<BR>
 This template percreate MDE tag by prerioLogic apps periodically
- - Tag name "DefenderForServers"
+ - Tag name ``DefenderForServers``
  - Tag name ``Azure Subscription Name`` from Azure Resource Graph query
 
 For Japanese README.md is here.
