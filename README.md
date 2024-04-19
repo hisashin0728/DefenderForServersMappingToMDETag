@@ -16,7 +16,7 @@ For [Japanese README.md is here](https://github.com/hisashin0728/DefenderForServ
 
 [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fhisashin0728%2FDefenderForServersMappingToMDETag%2Fmain%2FDefenderForServersMappingToMDETag.json)
 
-# Configure the logic apps
+# Configure the Logic apps
 > After deploy to Azure, you need to configure the following steps
 
 - You can modify tuning "Reccurence" duration for the first steps.
