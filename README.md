@@ -1,12 +1,14 @@
 # DefenderForServersMappingToMDETag
 > Summary
 
+This repository ``DefenderForServersMappingToMDETag`` provides a ARM template for writing tags as Azure subscription names for Azure Virtual Machines (VMs) that have Defender for Servers (MDE) installed. This ARM template periodically creates MDE tags using Logic Apps. <p>
+
 This template provides to write tag as Azure subscription name in Defender XDR for Azure VM installed Defender for Servers (MDE).<BR>
 This template percreate MDE tag by prerioLogic apps periodically
  - Tag name "DefenderForServers"
  - Tag name ``Azure Subscription Name`` from Azure Resource Graph query
 
-For Japanese README is here.
+For Japanese README.md is here.
 ![image](https://github.com/hisashin0728/DefenderForServersMappingToMDETag/assets/55295601/788710e3-d3b3-45f7-b98a-118a9359204f)
 
 # Deploy To Azure
@@ -17,11 +19,11 @@ For Japanese README is here.
 # Configure the logic apps
 > After deploy to Azure, you need to configure the following steps
 
-- You can tune "Reccurence" duration for the first steps.
-  - Initial parameter sets to ``1`` month for reccurence, so you can tune this parameter.
-- You should configure Subscription ``Reader`` role for system assigned identity
+- You can modify tuning "Reccurence" duration for the first steps.
+  - Initial parameter sets to ``1`` month for reccurence. You can modify this parameter if you want.
+- You should configure multiple Subscription ``Reader`` roles for system assigned identity
   - This logic app polls query to post Azure Resource Graph by system assigned managed identity
-  - If you have multiple subscriptions and deploys Defender for Servers to each subscriptions, the logic app requires each subscription ``reader`` role for managed identity.
+  - If you have multiple subscriptions and deploys Defender for Servers to Azure VMs on each subscriptions, the logic app requires each subscription ``reader`` role for managed identity.
 
 ![image](https://github.com/hisashin0728/DefenderForServersMappingToMDETag/assets/55295601/cf976a86-33be-45cf-b647-62b05d907ccb)
 ![image](https://github.com/hisashin0728/DefenderForServersMappingToMDETag/assets/55295601/aa29bd6a-2683-4217-8786-6c694c15de7e)
